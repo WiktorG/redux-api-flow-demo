@@ -1,20 +1,38 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Paper } from '@material-ui/core';
+
+import { loginUser } from "../../redux/user/actions";
+import { userSelector } from "../../redux/user/selectors";
 
 import { formContainerStyle, formTitleStyle, formStyle } from "./static";
 
 const LoginForm = () => {
   const [login, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
+  const { isPending, isLoggedIn, error, data: user } = useSelector(userSelector);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit");
+    const userPayload = {
+      login, 
+      password
+    };
+
+    dispatch(loginUser(userPayload));
+  }
+
+  if (isLoggedIn) {
+    return (
+    <h3>Witam {user.name}</h3>
+    )
   }
 
   return (
     <Paper style={formContainerStyle}>
-      <h3 style={formTitleStyle}>Zaloguj się</h3>
+      <h3 style={formTitleStyle}>{isPending ? "Logowanie.." : "Zaloguj się"}</h3>
+      {error && <h4>{error}</h4>}
       <form style={formStyle} onSubmit={handleSubmit}>
         <TextField
           type="text"
@@ -34,6 +52,7 @@ const LoginForm = () => {
           variant="contained"
           color="primary"
           type="submit"
+          disabled={isPending}
         >
           Zaloguj
         </Button>

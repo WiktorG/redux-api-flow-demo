@@ -1,16 +1,23 @@
+import { Provider } from "react-redux";
 import { Container, Grid } from '@material-ui/core';
+
+import initializeStore from "./redux/store";
 
 import LoginForm from "./components/LoginForm";
 
+const store = initializeStore();
+
 const App = () => {
   return (
-    <Container maxWidth="sm">
-      <Grid container>
-        <Grid item xs={12}>
-          <LoginForm />
+    <Provider store={store}>
+      <Container maxWidth="sm">
+        <Grid container>
+          <Grid item xs={12}>
+            <LoginForm />
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Provider>
   );
 }
 
