@@ -1,9 +1,16 @@
+import { Container, Grid } from '@material-ui/core';
 
-function App() {
+import LoginForm from "./components/LoginForm";
+
+const App = () => {
   return (
-    <div className="App">
-     
-    </div>
+    <Container maxWidth="sm">
+      <Grid container>
+        <Grid item xs={12}>
+          <LoginForm />
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 
