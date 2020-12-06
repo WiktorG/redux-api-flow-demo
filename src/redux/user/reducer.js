@@ -4,9 +4,9 @@ import {
   LOGIN_USER_ERROR
 } from "./actions";
 
+// https://redux.js.org/tutorials/essentials/part-5-async-logic#loading-state-for-requests
 const initialState = {
-  isPending: false,
-  isLoggedIn: false,
+  status: 'idle',
   error: null,
   data: null
 }
@@ -14,7 +14,7 @@ const initialState = {
 /* 
   default User if set
   
-  isPending: boolean;
+  status: 'idle' | 'pending' | 'succeeded' | 'failed',
   error: null | string;
   name: string;
 */
@@ -23,24 +23,19 @@ const userReducer = (state = initialState, action) => {
   switch(action.type) {
     case LOGIN_USER_REQUEST: 
       return {
-        isPending: true,
-        isLoggedIn: false,
+        status: 'pending',
         error: null,
         data: null,
       };
     case LOGIN_USER_SUCCESS: 
       return {
-        isPending: false,
-        isLoggedIn: true,
-        error: null,
+        status: 'succeeded',
         data: action.userData,
       };
     case LOGIN_USER_ERROR: 
       return {
-        isPending: false,
-        isLoggedIn: false,
+        status: 'failed',
         error: action.error,
-        data: null,
       };
     default: 
       return initialState;

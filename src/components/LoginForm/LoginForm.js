@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TextField, Button, Paper } from '@material-ui/core';
+import { TextField, Button, Paper } from "@material-ui/core";
 
 import { loginUser } from "../../redux/user/actions";
 import { userSelector } from "../../redux/user/selectors";
@@ -11,27 +11,28 @@ const LoginForm = () => {
   const [login, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
   const dispatch = useDispatch();
-  const { isPending, isLoggedIn, error, data: user } = useSelector(userSelector);
+  const { status, error, data: user } = useSelector(userSelector);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const userPayload = {
-      login, 
-      password
+      login,
+      password,
     };
 
     dispatch(loginUser(userPayload));
-  }
+  };
 
-  if (isLoggedIn) {
-    return (
-    <h3>Witam {user.name}</h3>
-    )
+  if (status === "succeeded") {
+    return <h3>Witam {user.name}</h3>;
   }
 
   return (
     <Paper style={formContainerStyle}>
-      <h3 style={formTitleStyle}>{isPending ? "Logowanie.." : "Zaloguj się"}</h3>
+      <h3 style={formTitleStyle}>
+        {status === "pending" && "Logowanie.."}
+        {status === "idle" && "Zaloguj się"}
+      </h3>
       {error && <h4>{error}</h4>}
       <form style={formStyle} onSubmit={handleSubmit}>
         <TextField
@@ -52,13 +53,13 @@ const LoginForm = () => {
           variant="contained"
           color="primary"
           type="submit"
-          disabled={isPending}
+          disabled={status === "pending"}
         >
           Zaloguj
         </Button>
       </form>
     </Paper>
-  )
+  );
 };
 
 export default LoginForm;
