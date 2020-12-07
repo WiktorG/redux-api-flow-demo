@@ -7,12 +7,12 @@ import {
 } from "./actions";
 
 function* loginUser({ userPayload }) {
-  const [response, error] = [{ name: "Wiktor" }, "Błędny login lub hasło"]; // fake api call
+  const [response, error] = yield [{ name: "Wiktor" }, "Błędny login lub hasło"]; // fake api call
   yield delay(3000);
 
   if (userPayload.login === "error") { 
     // inside this if we could handle all error side effects
-    yield put({ type: LOGIN_USER_ERROR, error, }); 
+    yield put({ type: LOGIN_USER_ERROR, error }); 
     return
   }
 
