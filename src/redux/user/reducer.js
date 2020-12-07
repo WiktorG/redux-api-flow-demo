@@ -12,11 +12,11 @@ const initialState = {
 }
 
 /* 
-  default User if set
-  
   status: 'idle' | 'pending' | 'succeeded' | 'failed',
   error: null | string;
-  name: string;
+  data: {
+    name: string;
+  } | null;
 */
 
 const userReducer = (state = initialState, action) => {
@@ -30,12 +30,14 @@ const userReducer = (state = initialState, action) => {
     case LOGIN_USER_SUCCESS: 
       return {
         status: 'succeeded',
+        error: null,
         data: action.userData,
       };
     case LOGIN_USER_ERROR: 
       return {
         status: 'failed',
         error: action.error,
+        data: null,
       };
     default: 
       return initialState;

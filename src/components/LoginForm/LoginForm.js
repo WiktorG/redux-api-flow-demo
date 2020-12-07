@@ -30,8 +30,7 @@ const LoginForm = () => {
   return (
     <Paper style={formContainerStyle}>
       <h3 style={formTitleStyle}>
-        {status === "pending" && "Logowanie.."}
-        {status === "idle" && "Zaloguj się"}
+        {status === "pending" ? "Logowanie.." : "Zaloguj się"}
       </h3>
       {error && <h4>{error}</h4>}
       <form style={formStyle} onSubmit={handleSubmit}>
@@ -41,6 +40,7 @@ const LoginForm = () => {
           size="medium"
           value={login}
           onChange={(e) => setLogin(e.target.value)}
+          disabled={status === "pending"}
         />
         <TextField
           type="password"
@@ -48,6 +48,7 @@ const LoginForm = () => {
           size="medium"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={status === "pending"}
         />
         <Button
           variant="contained"
